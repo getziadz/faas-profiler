@@ -7,13 +7,17 @@ sudo pip3 install -r requirements.txt
 
 # Configure path variables used by the platform 
 ROOTLINE='FAAS_ROOT="'$(echo $PWD)'"'
-echo $ROOTLINE >> GenConfigs.py
+echo $ROOTLINE > GenConfigs.py
 echo 'WSK_PATH = "'$(which wsk)'"' >> GenConfigs.py
+if [[ `which wsk` == '' ]]; then
+    echo "[ERROR] The WSK_PATH variable was not set correctly. The 'wsk' binary could not be located in PATH"
+fi
+
 
 # Configure root path
-echo $ROOTLINE | cat - invocation-scripts/monitoring.sh | sponge invocation-scripts/monitoring.sh
-echo $ROOTLINE | cat - monitoring/RuntimeMonitoring.sh | sponge monitoring/RuntimeMonitoring.sh
+echo $ROOTLINE | cat - invocation-scripts/monitoring-template.sh | sponge invocation-scripts/monitoring.sh
+echo $ROOTLINE | cat - monitoring/RuntimeMonitoring-template.sh | sponge monitoring/RuntimeMonitoring.sh
 
 # Make local directories
-mkdir logs
-mkdir data_archive
+mkdir -p logs
+mkdir -p data_archive
