@@ -2,7 +2,10 @@
 GenConfigs.py
 invocation-scripts/monitoring.sh
 monitoring/RuntimeMonitoring.sh
-		
+
+# emacs backup files
+*~
+
 # logs and data archives
 *.log
 *.pkl
