@@ -30,7 +30,7 @@ bash configure.sh
 
 ### Specify the Test 
 
-The first step is to prepare a workload configuration file that tells FaaSProfiler about your scenario. A sample workload configuration file, called [workload_configs.json](./workload_configs.json), has been provided. You can base your own on this JSON file and configure it. Here are some details:
+The first step is to prepare a workload configuration file that tells FaaSProfiler about your scenario. A sample workload configuration file, called [workload_configs.json](./workload-configs/workload_configs.json), has been provided. You can base your own on this JSON file and configure it. Here are some details:
 
 1. Primary fields:
     1. `test_duration_in_seconds`: Determines the length of the test in seconds.
@@ -52,7 +52,7 @@ The first step is to prepare a workload configuration file that tells FaaSProfil
     1. `runtime_script`: This is a script that is run at the beginning of the test. Therefore, it allows specifying performance monitoring tools such as perf, pqos, or blktrace to run at the same time as the test. An example for this script is provided at [monitoring/RuntimeMonitoring.sh](./monitoring/RuntimeMonitoring.sh). This field can be ignored by setting it to `null`.
     2. `post_script`: This is a script that runs after the test ends which aims to allow automating post-analysis. This field can be ignored by setting it to `null`.
 
-We advise the user to go over the [workload_configs.json](./workload_configs.json) file to familiarize themselves with these fields.
+We advise the user to go over the [workload_configs.json](./workload-configs/workload_configs.json) file to familiarize themselves with these fields.
 
 ### Run the Test 
 

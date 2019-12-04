@@ -1,9 +1,13 @@
 # local config file
 GenConfigs.py
-
+invocation-scripts/monitoring.sh
+monitoring/RuntimeMonitoring.sh
+		
 # logs and data archives
 *.log
 *.pkl
+
+
 
 # compiled bytecode
 __pycache__/

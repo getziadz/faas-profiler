@@ -63,6 +63,7 @@ console.log('  ' + url.green);
 console.log();
 console.log('Example curl:'.blue);
 console.log(('  curl \'' + url + '?term=a\'').green);
+console.log(('In case of SSL certificate error use the -k flag with curl').red);
 console.log();
 console.log('Example HTML:'.blue);
 console.log(html.green);

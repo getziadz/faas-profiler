@@ -8,7 +8,13 @@ Node.js is required to install the `acsetup` utility.
 
 ## Installation
 
-Ensure you have [Node.js and npm installed](https://nodejs.org/en/download/). Then run:
+Ensure you have [Node.js and npm installed](https://nodejs.org/en/download/).
+```
+# Install Node.js on Ubuntu
+sudo apt install nodejs
+```
+
+Then run:
 
 ```
 npm link

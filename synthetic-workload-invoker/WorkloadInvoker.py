@@ -16,6 +16,7 @@ import sys
 import time
 import threading
 import logging
+import subprocess
 
 # Local imports
 sys.path = ['./', '../'] + sys.path
@@ -197,6 +198,16 @@ def main(argv):
         thread.start()
     logger.info("Test ended")
 
+    try:
+        if workload['perf_monitoring']['post_script']:
+            post_script = 'bash ' + FAAS_ROOT + '/' + workload['perf_monitoring']['post_script']
+            retcode = subprocess.call(post_script, shell=True)
+            logger.info(f"Post script ran. Return code was {retcode}")
+    except OSError as e:
+        print("Execution failed:", e, file=sys.stderr)
+        
+
+    
     return True
 
 
