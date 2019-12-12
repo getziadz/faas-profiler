@@ -3,6 +3,11 @@ GenConfigs.py
 invocation-scripts/monitoring.sh
 monitoring/RuntimeMonitoring.sh
 
+# Generate files
+functions/img-resize/action.zip
+functions/img-resize/node_modules/
+		
+
 # emacs backup files
 *~
 
