@@ -6,6 +6,9 @@ monitoring/RuntimeMonitoring.sh
 # Generate files
 functions/img-resize/action.zip
 functions/img-resize/node_modules/
+functions/ocr-img/output.txt
+synthetic-workload-invoker/test_metadata.out
+toplev-mon.out
 		
 
 # emacs backup files
