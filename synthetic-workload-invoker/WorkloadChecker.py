@@ -14,7 +14,7 @@ from GenConfigs import *
 sys.path = [FAAS_ROOT + '/synthetic-workload-invoker'] + sys.path
 from commons.Logger import ScriptLogger
 
-logger = ScriptLogger('workload_invoker', 'SWI.log')
+logger = ScriptLogger('workload_invoker:workload-checker', 'SWI.log')
 
 
 def CheckWorkloadValidity(workload, supported_distributions):

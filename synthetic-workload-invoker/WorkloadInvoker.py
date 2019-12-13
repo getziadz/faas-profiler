@@ -32,7 +32,7 @@ logging.captureWarnings(True)
 # Global variables
 supported_distributions = {'Poisson', 'Uniform'}
 
-logger = ScriptLogger('workload_invoker', 'SWI.log')
+logger = ScriptLogger('workload_invoker:main', 'SWI.log')
 
 
 APIHOST = 'https://172.17.0.1'
@@ -186,18 +186,25 @@ def main(argv):
 
     try:
         if workload['perf_monitoring']['runtime_script']:
-            runtime_script = 'bash ' + FAAS_ROOT + '/' + workload['perf_monitoring']['runtime_script'] + \
-                ' ' + str(int(workload['test_duration_in_seconds'])) + ' &'
+            runtime_script = 'bash ' + FAAS_ROOT + '/' + \
+                             workload['perf_monitoring']['runtime_script'] + \
+                             ' ' + str(int(workload['test_duration_in_seconds'])) + \
+                             ' &'
             os.system(runtime_script)
             logger.info("Runtime monitoring script ran")
     except:
         pass
 
     logger.info("Test started")
+    # Crete experiment threads
     for thread in threads:
         thread.start()
+    
+    # Wait for all experiment threads to finish
+    for index, thread in enumerate(threads):
+        thread.join()
     logger.info("Test ended")
-
+    
     try:
         if workload['perf_monitoring']['post_script']:
             post_script = 'bash ' + FAAS_ROOT + '/' + workload['perf_monitoring']['post_script']

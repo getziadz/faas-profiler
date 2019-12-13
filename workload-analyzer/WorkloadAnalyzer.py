@@ -94,6 +94,7 @@ def ConstructTestDataframe(since, limit=1000, read_results=False):
         logger.error('DB error: ' + activations['reason'])
         return None
     activations = activations['docs']
+    logger.info(f"[WA] {lactivations)} limit was {limit}")
 
     for activation in activations:
         perf_data['func_name'].append(activation['name'])
@@ -301,8 +302,9 @@ def main(argv):
     test_df['start'] -= ref
     test_df['end'] -= ref
     cgroups_df = GetControlGroupsRecords(since=test_start_time)
-    perf_mon_records = AnalyzePerfMonRecords(config_file)
     test_df['execution'] = test_df['duration'] - test_df['initTime']
+
+    perf_mon_records = AnalyzePerfMonRecords(config_file)
 
     if options.verbose:
         # Printing the data
@@ -311,6 +313,7 @@ def main(argv):
         print(test_df)
         print(cgroups_df)
         print(perf_mon_records)
+        
     if options.plot:
         # Plotting the data
         if options.save_plot:
@@ -319,6 +322,7 @@ def main(argv):
             save_plot = False
         TestDataframePlotter(save_plot, test_df, cgroups_df)
         # PerfMonPlotter(perf_mon_records, time_window=[5, 10])
+        
     if options.archive:
         # Storing the data
         now = datetime.now()
@@ -326,6 +330,7 @@ def main(argv):
             '_' + test_name + '.pkl'
         pickle.dump([test_name, config_df, stat_df, test_df,
                      perf_mon_records], open(file_name, "wb"))
+        
     if options.capacity_factor:
         with open(FAAS_ROOT + '/workload-analyzer/capacity_factors.json', 'w') as outfile:
             json.dump(CapacityFactor(test_df), outfile)
@@ -335,6 +340,7 @@ def main(argv):
         print('Mean ' + dim + ' (ms): ' + str(test_df[dim].mean()))
         print('Std ' + dim + ' (ms): ' + str(test_df[dim].std()))
         print('***********')
+        
     warm_starts_test_df = test_df[test_df['initTime'] == 0]
     print('Warm Start Performance Summary (count: ' +
           str(len(warm_starts_test_df[dim])) + ')')
@@ -342,6 +348,7 @@ def main(argv):
         print('Mean ' + dim + ' (ms): ' + str(warm_starts_test_df[dim].mean()))
         print('Std ' + dim + ' (ms): ' + str(warm_starts_test_df[dim].std()))
         print('***********')
+        
     cold_starts_test_df = test_df[test_df['initTime'] != 0]
     print('Cold Start Performance Summary (count: ' +
           str(len(cold_starts_test_df[dim])) + ')')

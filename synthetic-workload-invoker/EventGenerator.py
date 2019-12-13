@@ -10,7 +10,7 @@ import random
 
 from commons.Logger import ScriptLogger
 
-logger = ScriptLogger('workload_invoker', 'SWI.log')
+logger = ScriptLogger('workload_invoker:event-generator', 'SWI.log')
 
 
 def CreateEvents(instance, dist, rate, duration, seed=None):
