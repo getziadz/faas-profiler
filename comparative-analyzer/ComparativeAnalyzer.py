@@ -23,7 +23,6 @@ sys.path = ['./', '../'] + sys.path
 from GenConfigs import *
 from commons.Logger import ScriptLogger
 
-logger = ScriptLogger(loggername='comparative_analyzer', logfile='CA.log')
 archive_folder = FAAS_ROOT + "/data_archive/"
 
 
@@ -60,6 +59,7 @@ def CompareArchives(archive_files, plot):
     """
     This function compares archived result of tests.
     """
+    logger = logging.getLogger("comparative_analyzer")
     all_data = {}
     for entry in archive_files:
         pickle_file = archive_folder + entry[0]
@@ -194,6 +194,7 @@ def main(argv):
                       help='specify a customized plotting string', metavar='FILE')
     (options, args) = parser.parse_args()
 
+    logger = ScriptLogger(loggername='comparative_analyzer', logfile='CA.log')
     logger.info("Comparative Analyzer started")
     print("Log file -> logs/CA.log")
 

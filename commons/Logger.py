@@ -19,7 +19,7 @@ def ScriptLogger(loggername, logfile):
     logger = logging.getLogger(loggername)
     logger.setLevel(logging.DEBUG)
     # create file handler which logs even debug messages
-    lfh = logging.FileHandler(FAAS_ROOT + '/logs/' + logfile)
+    lfh = logging.FileHandler(FAAS_ROOT + '/' + logfile)
     lfh.setLevel(logging.DEBUG)
     # create console handler with a higher log level
     lch = logging.StreamHandler()

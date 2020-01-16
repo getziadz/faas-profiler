@@ -12,15 +12,13 @@ import sys
 sys.path = ['./', '../'] + sys.path
 from GenConfigs import *
 sys.path = [FAAS_ROOT + '/synthetic-workload-invoker'] + sys.path
-from commons.Logger import ScriptLogger
-
-logger = ScriptLogger('workload_invoker:workload-checker', 'SWI.log')
 
 
 def CheckWorkloadValidity(workload, supported_distributions):
     """
     Checks whether a loaded workload is valid.
     """
+    logger = logging.getLogger('workload_invoker')
     logger.info("Started CheckWorkloadValidity")
     # 1 - Check if the workload has been successfully read in ReadJSONConfig
     if workload is None:

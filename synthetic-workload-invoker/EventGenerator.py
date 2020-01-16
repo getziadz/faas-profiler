@@ -8,10 +8,6 @@ import logging
 import numpy as np
 import random
 
-from commons.Logger import ScriptLogger
-
-logger = ScriptLogger('workload_invoker:event-generator', 'SWI.log')
-
 
 def CreateEvents(instance, dist, rate, duration, seed=None):
     """
@@ -57,6 +53,8 @@ def GenericEventGenerator(workload):
     """
     This function returns a list of times and applications calls given a workload description.
     """
+    logger = logging.getLogger('workload_invoker')
+
     logger.info("Started Generic Event Generator")
     test_duration_in_seconds = workload['test_duration_in_seconds']
 
