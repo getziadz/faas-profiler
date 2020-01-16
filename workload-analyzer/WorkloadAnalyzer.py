@@ -94,6 +94,8 @@ def ConstructTestDataframe(since, limit=1000, read_results=False):
     logger.info(f"[WA] {lactivations)} limit was {limit}")
 
     for activation in activations:
+        if 'invokerHealthTestAction' in activation['name']:
+            continue    # skipping OpenWhisk's health check invocations
         perf_data['func_name'].append(activation['name'])
         perf_data['activationId'].append(activation['_id'])
         perf_data['start'].append(activation['start'])
@@ -275,6 +277,8 @@ def main(argv):
         logger.error('Test result dataframe could not be constructed!')
         return False
     print('Records read from CouchDB: ' + str(len(test_df['start'])))
+    print('Test Dataframe:')
+    print(test_df)
 
     invocation_periods = []
     start_times = []

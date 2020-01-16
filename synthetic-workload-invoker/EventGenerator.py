@@ -8,6 +8,8 @@ import logging
 import numpy as np
 import random
 
+from commons.Logger import ScriptLogger
+logger_eg = ScriptLogger('event_generator', 'SWI.log')
 
 def CreateEvents(instance, dist, rate, duration, seed=None):
     """
@@ -53,39 +55,47 @@ def GenericEventGenerator(workload):
     """
     This function returns a list of times and applications calls given a workload description.
     """
-    logger = logging.getLogger('workload_invoker')
-
-    logger.info("Started Generic Event Generator")
+    logger_eg.info("Started Generic Event Generator")
     test_duration_in_seconds = workload['test_duration_in_seconds']
 
     all_events = {}
     event_count = 0
 
     random_seed = workload['random_seed']
-    logger.info('random_seed: ' + str(random_seed))
+    logger_eg.info('random_seed: ' + str(random_seed))
 
     for (instance, desc) in workload['instances'].items():
         if 'interarrivals_list' in desc.keys():
             instance_events = desc['interarrivals_list']
-            logger.info('Read the invocation time trace for ' + instance)
+            logger_eg.info('Read the invocation time trace for ' + instance)
+            # enforcing maximum test duration
+            list_len = 0
+            cutoff_index = None
+            for i in range(len(instance_events)):
+                list_len += instance_events[i]
+                if list_len > test_duration_in_seconds:
+                    cutoff_index = i
+                    break
+            if cutoff_index is not None:
+                instance_events = instance_events[:cutoff_index]
         else:
             instance_events = CreateEvents(instance=instance,
                                            dist=desc['distribution'],
                                            rate=desc['rate'],
                                            duration=test_duration_in_seconds,
                                            seed=random_seed)
-        try:
-            start_time = desc['activity_window'][0]
-            end_time = desc['activity_window'][1]
-            instance_events = EnforceActivityWindow(
-                start_time, end_time, instance_events)
-        except:
-            instance_events = EnforceActivityWindow(0,
-                                                    workload['test_duration_in_seconds'],
-                                                    instance_events)
+            try:
+                start_time = desc['activity_window'][0]
+                end_time = desc['activity_window'][1]
+                instance_events = EnforceActivityWindow(
+                    start_time, end_time, instance_events)
+            except:
+                instance_events = EnforceActivityWindow(0,
+                                                        workload['test_duration_in_seconds'],
+                                                        instance_events)
         all_events[instance] = instance_events
         event_count += len(instance_events)
 
-    logger.info("Returning workload event list")
+    logger_eg.info("Returning workload event list")
 
     return [all_events, event_count]
